@@ -30,11 +30,6 @@ if (!global.db.anti) global.db.anti = {};
 if (!global.db.settings) global.db.settings = {};
 if (!global.botStart) global.botStart = Date.now();
 
-// ============================================================
-// ========== SESSION SETTINGS - PER USER ==========
-// Each of 1000 users has own prefix / mode / language
-// So if User A does .setprefix !, User B still has .
-// ============================================================
 function getSessionSettingsPath(clean) {
   return path.join(sessionsDir, clean, 'settings.json');
 }
@@ -77,11 +72,6 @@ function saveSessionSettings(clean, settings) {
 global.getSessionSettings = loadSessionSettings;
 global.saveSessionSettings = saveSessionSettings;
 
-// ============================================================
-// ========== PAIRING LOCK - YOUR METHOD ==========
-// Stops 2 codes at same time for same number
-// Stops "code already generating" spam
-// ============================================================
 const pairingLocks = {};
 
 function getLock(clean) {
@@ -89,17 +79,10 @@ function getLock(clean) {
   return pairingLocks[clean];
 }
 
-// ============================================================
-// ========== START BOT - MAIN FUNCTION ==========
-// Called by server.js: POST /api/pair + GET /getcode + autoRestore
-// ============================================================
 async function startBot(number) {
   const clean = String(number).replace(/[^0-9]/g, '');
   const lock = getLock(clean);
 
-  // FIX - RENDER REPLY FIX: Never return fake "Already Connected"
-  // If socket has no user, it never connected. Delete it and make fresh one.
-  // This was the #1 reason Knight said "couldn't link" - dead socket was blocking new code
   if (activeSockets[clean]) {
     const old = activeSockets[clean];
     if (old.user) {
@@ -132,7 +115,7 @@ async function startBot(number) {
       creds: state.creds,
       keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'silent' }))
     },
-    markOnlineOnConnect: config.autoOnline || false,
+    markOnlineOnConnect: true,
     syncFullHistory: false,
     connectTimeoutMs: config.connectTimeoutMs || 60000,
     keepAliveIntervalMs: config.keepAliveIntervalMs || 10000,
@@ -150,24 +133,23 @@ async function startBot(number) {
   sock.ev.on('connection.update', async (u) => {
     const { connection, lastDisconnect } = u;
     if (connection === 'open') {
+      await sock.sendPresenceUpdate('available').catch(()=>{});
+      setInterval(() => { sock.sendPresenceUpdate('available').catch(()=>{}); }, 30000);
       console.log(`✅ MINI-ZYRA ONLINE: ${clean} | Owner: ${clean} | Prefix: ${sessionSettings.prefix} | Mode: ${sessionSettings.mode}`);
       sock.pairingCode = null;
       lock.lastCode = null;
       lock.inProgress = false;
       try {
-        // Auto PFP - from config.json botPfp
         const pfpUrl = config.botPfp || config.pfp || config.menuImage;
         if (pfpUrl && pfpUrl.startsWith('http')) {
           await sock.updateProfilePicture(sock.user.id, { url: pfpUrl }).catch(() => {});
         }
-        // Auto Bio / Status
         const statusText = config.botStatus || config.statusText || `💀 MINI-ZYRA | BY ${config.creatorName || 'FACELESS'} | Prefix ${sessionSettings.prefix} | Type ${sessionSettings.prefix}menu`;
         await sock.updateProfileStatus(statusText).catch(() => {});
       } catch {}
     }
     if (connection === 'close') {
       delete activeSockets[clean];
-      // FIX - Clear lock on close so next code is fresh, not dead code
       lock.lastCode = null;
       lock.lastTime = 0;
       lock.inProgress = false;
@@ -188,7 +170,6 @@ async function startBot(number) {
     try {
       const liveSettings = loadSessionSettings(clean);
       sock.sessionSettings = liveSettings;
-      // Auto View Status - only if user turned it on
       if (config.autoViewStatus || global.db.settings?.autoView) {
         for (const m of up.messages) {
           if (m.key.remoteJid === 'status@broadcast') {
@@ -215,11 +196,6 @@ async function startBot(number) {
     } catch {}
   });
 
-  // ============================================================
-  // ========== PAIR CODE - YOUR METHOD - 25 SEC LOCK ==========
-  // If code < 25 sec old, return SAME code - don't make new one
-  // If inProgress, tell user wait 5 sec - don't spam WhatsApp
-  // ============================================================
   if (!state.creds.registered) {
     if (lock.lastCode && Date.now() - lock.lastTime < 25000) {
       sock.pairingCode = lock.lastCode;
