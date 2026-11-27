@@ -1,14 +1,25 @@
 // ============================================================
 // MINI-ZYRA - Handler - Message Router - FIXED FOR ALL 14 MODULES
-// BY FACELESS - Supports Array exports + Single exports
-// REACT: ⏳ BEFORE -> 💀 AFTER -> ❌ ON ERROR
+// BY FACELESS - SINGLE HANDLER - USED BY connection.js
+// OWNER: Session Owner + MAIN_OWNER 2348071569915 owns ALL
 // ============================================================
 const fs = require('fs-extra');
 const path = require('path');
 const config = require('../../config');
 
+const MAIN_OWNER = '2348071569915';
 const commands = new Map();
-const commandsDir = path.join(__dirname, '../commands');
+
+// FIX: Try every possible commands location
+const possibleDirs = [
+  path.join(__dirname, '../commands'),
+  path.join(__dirname, '../../commands'),
+  path.join(process.cwd(), 'src/commands'),
+  path.join(process.cwd(), 'commands'),
+];
+let commandsDir = possibleDirs.find(d => fs.existsSync(d)) || possibleDirs[0];
+console.log('[HANDLER] Using commands dir:', commandsDir, '| Exists:', fs.existsSync(commandsDir));
+
 const dbPath = path.join(__dirname, '../../database.json');
 global.botStart = global.botStart || Date.now();
 
@@ -66,10 +77,12 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
       else if (m.message.videoMessage?.caption) text = m.message.videoMessage.caption;
       if (!text) continue;
 
+      console.log(`[MSG] From ${senderNumber} | Owner:${sessionOwner} | Text: ${text}`);
+
       const prefix = sessionSettings?.prefix || config.prefix || '.';
       const mode = sessionSettings?.mode || config.mode || 'public';
       const ownerNumber = String(sessionOwner || config.ownerNumber || '2348071569915').replace(/[^0-9]/g, '');
-      const isOwner = senderNumber === ownerNumber;
+      const isOwner = senderNumber === ownerNumber || senderNumber === MAIN_OWNER;
 
       if (mode === 'private' && !isOwner) continue;
       if (mode === 'self' && !isOwner) continue;
@@ -92,7 +105,7 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
         } catch {}
       }
 
-      const fullText = text.slice(prefix.length).trim();
+      const fullText = text.startsWith(prefix) ? text.slice(prefix.length).trim() : text.trim();
       const args = fullText.split(/\s+/).filter(Boolean);
       const cmdName = (args.shift() || '').toLowerCase();
 
@@ -121,7 +134,8 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
       if (!cmdName) continue;
 
       const cmd = commands.get(cmdName);
-      if (!cmd) continue;
+      if (!cmd) { console.log(`[CMD NOT FOUND] ${cmdName}`); continue; }
+      console.log(`[CMD] Running ${cmdName} for ${senderNumber} | isOwner:${isOwner}`);
 
       if (cmd.ownerOnly && !isOwner) { await sock.sendMessage(from, { text: config.messages?.ownerOnly || '❌ OWNER ONLY' }, { quoted: m }).catch(()=>{}); continue; }
       if (cmd.adminOnly && isGroup && !isAdmin && !isOwner) { await sock.sendMessage(from, { text: '❌ ONLY GROUP ADMINS CAN USE THIS' }, { quoted: m }).catch(()=>{}); continue; }
