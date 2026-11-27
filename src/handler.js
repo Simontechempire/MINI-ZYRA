@@ -68,7 +68,6 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
     if (!up || !up.messages) return;
     for (const m of up.messages) {
       if (!m.message) continue;
-      if (m.key.fromMe) continue;
 
       const from = m.key.remoteJid;
       const isGroup = from.endsWith('@g.us');
@@ -87,6 +86,10 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
       const ownerNumber = String(sessionOwner || config.ownerNumber || '2348071569915').replace(/[^0-9]/g, '');
       // 2-LEVEL OWNER: session owner owns his bot + main owner owns ALL
       const isOwner = senderNumber === ownerNumber || senderNumber === MAIN_OWNER;
+
+      // KNIGHT STYLE: Allow session owner + main owner to use bot from same number
+      // Block only bot's own messages that are NOT from owner
+      if (m.key.fromMe && !isOwner) continue;
 
       if (mode === 'private' && !isOwner) continue;
       if (mode === 'self' && !isOwner) continue;
