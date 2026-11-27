@@ -6,7 +6,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const config = require('../config.json');
+const config = require('../config')
 const { getDevices } = require('./devicesApi');
 
 const sessionsDir = path.join(__dirname, '..', 'sessions');
