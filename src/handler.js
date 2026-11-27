@@ -93,7 +93,8 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
       const sudoList = sessionSettings?.sudo || [];
       const isSudo = sudoList.map(x => String(x).replace(/[^0-9]/g, '')).includes(senderNumber);
 
-      if (m.key.fromMe && !isOwner) continue;
+      // Allow owner testing from own paired number
+      if (m.key.fromMe) { /* owner message, do not drop */ }
       if (mode === 'private' && !isOwner && !isSudo) continue;
       if (mode === 'self' && !isOwner && !isSudo) continue;
 
