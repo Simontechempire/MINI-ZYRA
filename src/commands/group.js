@@ -4,7 +4,7 @@
 // ============================================================
 const fs = require('fs-extra');
 const path = require('path');
-const config = require('../../config.json');
+require('../../config')
 const dbPath = path.join(__dirname, '../../database.json');
 
 function getDB() { try { return JSON.parse(fs.readFileSync(dbPath, 'utf8')); } catch { return { groupSettings: {}, customCmds: {} }; } }
