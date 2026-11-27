@@ -11,8 +11,9 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs-extra');
 const config = require('./config.js');
-const { handleMessage } = require('./src/handlers/message');
-const { handleGroupUpdate } = require('./src/handlers/welcome');
+// FIXED: Removed broken imports - ./src/handlers/message does not exist
+// Real file is ./src/handler.js and server.js doesn't use it anyway
+// connection.js already loads handler.js
 
 const { startBot, activeSockets } = require('./src/connection');
 const devicesApi = require('./src/devicesApi');
