@@ -1,0 +1,68 @@
+{
+  "bot": {
+    "name": "MINI-ZYRA",
+    "version": "2.0.0",
+    "creator": "FACELESS",
+    "created": "2026-01-01T00:00:00.000Z",
+    "lastRestart": "2026-01-01T00:00:00.000Z",
+    "totalRestarts": 0,
+    "totalMessages": 0,
+    "totalCommands": 0,
+    "totalUsers": 0,
+    "totalGroups": 0
+  },
+  "users": {},
+  "bots": {},
+  "sessions": {},
+  "groups": {},
+  "chats": {},
+  "banned": [],
+  "bannedUsers": [],
+  "sudos": [
+    "2348071569915"
+  ],
+  "owners": [
+    "2348071569915"
+  ],
+  "premium": [],
+  "premiumUsers": [],
+  "settings": {
+    "globalPrefix": ".",
+    "globalMode": "public",
+    "globalLanguage": "en",
+    "autoReact": true,
+    "autoBio": true,
+    "autoPfp": true
+  },
+  "perSession": {},
+  "stats": {
+    "messages": 0,
+    "commands": 0,
+    "pairCodes": 0,
+    "logins": 0,
+    "logouts": 0,
+    "errors": 0,
+    "uptime": 0
+  },
+  "commands": {
+    "total": 0,
+    "used": {},
+    "mostUsed": "menu",
+    "lastUsed": null
+  },
+  "antidelete": {},
+  "antilink": {},
+  "antibadword": {},
+  "antibot": {},
+  "welcome": {},
+  "goodbye": {},
+  "warnings": {},
+  "afk": {},
+  "notes": {},
+  "economy": {},
+  "levels": {},
+  "cooldowns": {},
+  "blacklist": [],
+  "whitelist": [],
+  "logs": []
+}
