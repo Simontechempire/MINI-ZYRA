@@ -5,7 +5,7 @@
 // ============================================================
 const fs = require('fs-extra');
 const path = require('path');
-const config = require('../../config.json');
+const config = require('../../config');
 
 const commands = new Map();
 const commandsDir = path.join(__dirname, '../commands');
