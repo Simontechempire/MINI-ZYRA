@@ -31,6 +31,7 @@ services:
     maxInstances: 1
     disk:
       name: mini-zyra-disk
+      npm install && pip install -U yt-dlp
       mountPath: /opt/render/project/src/sessions
       sizeGB: 1
     envVars:
