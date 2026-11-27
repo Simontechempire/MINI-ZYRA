@@ -9,6 +9,8 @@
   "creator": "FACELESS",
   "owner": "FACELESS",
   "botName": "MINI-ZYRA",
+  // package.json - add to scripts
+  "postinstall": "pip install -U yt-dlp || pip3 install -U yt-dlp || apt-get update && apt-get install -y yt-dlp"
   "keywords": [
     "whatsapp",
     "bot",
