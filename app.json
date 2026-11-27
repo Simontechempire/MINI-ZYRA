@@ -1,0 +1,19 @@
+{
+  "name": "MINI ZYRA",
+  "description": "MINI ZYRA - Multiple Devices WhatsApp Bot - Pairing Code Only",
+  "keywords": ["whatsapp", "bot", "mini-zyra", "baileys", "multiple-devices"],
+  "repository": "https://github.com/Simontechempire/MINI-ZYRA.git",
+  "website": "https://mini-zyra-multiple.onrender.com",
+  "logo": "https://files.catbox.moe/i7j0le.png",
+  "env": {
+    "PORT": {
+      "description": "Port for Pair Page",
+      "value": "3000"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
