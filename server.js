@@ -36,7 +36,14 @@ app.use((req, res, next) => {
 // GET /api/devices - list all
 // POST /api/pair - pair any number
 // POST /api/logout - logout any number
-app.use('/api', devicesApi);
+// Devices API - functions, not a router
+app.get('/api/devices', (req, res) => res.json(devicesApi.getStats(activeSockets)));
+app.get('/api/devices/:number', (req, res) => {
+  const d = devicesApi.getOneDevice(activeSockets, req.params.number);
+  if (!d) return res.json({ success: false, message: 'Device not found' });
+  res.json({ success: true, device: d });
+});
+app.post('/api/logout-all', async (req, res) => res.json(await devicesApi.logoutAll(activeSockets)));
 
 // ============================================================
 // ========== 1. PAIRING - MAIN - NO BLOCKING ==========
