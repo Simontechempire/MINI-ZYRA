@@ -1,0 +1,86 @@
+# ============================================================
+# 💀 MINI-ZYRA - RENDER DEPLOY FILE
+# BY FACELESS
+# METHOD: KNIGHT XMD + SIMON MD ENGINE
+# USERS: 1000 PEOPLE CAN LINK
+# ============================================================
+# How to use:
+# 1. Push your MINI-ZYRA folder to GitHub
+# 2. Go to render.com > New > Web Service
+# 3. Connect your GitHub repo
+# 4. Render will auto-detect this file
+# 5. Click Deploy
+# 6. Wait 2-3 mins, then open your link
+# 7. Enter number, get code, link in WhatsApp
+# ============================================================
+
+services:
+    - type: web
+    name: mini-zyra
+    runtime: node
+    env: node
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    healthCheckPath: /health
+    healthCheckTimeout: 100
+    numInstances: 1
+    maxInstances: 1
+    disk:
+      name: mini-zyra-disk
+      mountPath: /opt/render/project/src/sessions
+      sizeGB: 1
+    envVars:
+            - key: NODE_ENV
+        value: production
+            - key: PORT
+        value: 10000
+            - key: BOT_NAME
+        value: MINI-ZYRA
+            - key: CREATOR_NAME
+        value: FACELESS
+            - key: OWNER_NUMBER
+        value: 2348071569915
+            - key: CREATOR_NUMBER
+        value: 2348071569915
+            - key: PREFIX
+        value: .
+            - key: MODE
+        value: public
+            - key: LANGUAGE
+        value: en
+            - key: TIMEZONE
+        value: Africa/Lagos
+            - key: MAX_USERS
+        value: 1000
+            - key: MAX_DEVICES
+        value: 1000
+            - key: PAIR_METHOD
+        value: pair-code-only
+            - key: QR
+        value: false
+            - key: BOT_PFP
+        value: https://files.catbox.moe/i7j0le.png
+            - key: AUTO_ONLINE
+        value: false
+            - key: AUTO_VIEW_STATUS
+        value: false
+            - key: AUTO_LIKE_STATUS
+        value: false
+            - key: AUTO_RECONNECT
+        value: true
+            - key: PER_SESSION_DB
+        value: true
+            - key: SESSION_FOLDER
+        value: sessions
+    headers:
+            - path: /*
+        name: X-MINI-ZYRA
+        value: BY-FACELESS
+    routes:
+            - type: rewrite
+        source: /
+        destination: /index.html
