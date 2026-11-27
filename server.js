@@ -10,7 +10,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs-extra');
-const config = require('./config.json');
+const config = require('./config.js');
 const { handleMessage } = require('./src/handlers/message');
 const { handleGroupUpdate } = require('./src/handlers/welcome');
 
