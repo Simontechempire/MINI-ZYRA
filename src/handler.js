@@ -7,6 +7,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
+const { fancy } = require('../util/fancy');
 const config = require('../config.json');
 
 const commands = new Map();
