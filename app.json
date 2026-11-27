@@ -1,19 +1,150 @@
 {
-  "name": "MINI ZYRA",
-  "description": "MINI ZYRA - Multiple Devices WhatsApp Bot - Pairing Code Only",
-  "keywords": ["whatsapp", "bot", "mini-zyra", "baileys", "multiple-devices"],
-  "repository": "https://github.com/Simontechempire/MINI-ZYRA.git",
-  "website": "https://mini-zyra-multiple.onrender.com",
+  "name": "MINI-ZYRA",
+  "description": "💀 MINI-ZYRA - The Most Powerful WhatsApp Bot - By FACELESS - Knight XMD Method + SIMON MD Engine - 1000 Users Can Link At Once - Pair Code Only - No QR - Auto PFP - Auto Reconnect - Per Session DB - Fancy Bold - Terminal Hacker Menu",
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "mini-zyra",
+    "zyra",
+    "baileys",
+    "pair-code",
+    "multi-device",
+    "knight-xmd",
+    "simon-md",
+    "faceless",
+    "whatsapp-bot",
+    "whatsapp-md",
+    "terminal-hacker",
+    "render",
+    "heroku",
+    "railway",
+    "koyeb"
+  ],
+  "repository": "https://github.com/FACELESS/MINI-ZYRA",
+  "website": "https://github.com/FACELESS/MINI-ZYRA",
+  "success_url": "/",
   "logo": "https://files.catbox.moe/i7j0le.png",
-  "env": {
-    "PORT": {
-      "description": "Port for Pair Page",
-      "value": "3000"
-    }
-  },
+  "stack": "heroku-22",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
     }
-  ]
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "addons": [],
+  "env": {
+    "NODE_ENV": {
+      "description": "Node environment - production for live bot",
+      "value": "production",
+      "required": true
+    },
+    "PORT": {
+      "description": "Port for dashboard - Heroku / Render auto sets this",
+      "value": "3000",
+      "required": false
+    },
+    "BOT_NAME": {
+      "description": "Bot name shown in menu",
+      "value": "MINI-ZYRA",
+      "required": true
+    },
+    "CREATOR_NAME": {
+      "description": "Creator name - shown in menu and alive",
+      "value": "FACELESS",
+      "required": true
+    },
+    "OWNER_NUMBER": {
+      "description": "Your WhatsApp number with country code, no + - Example: 2348071569915 - This number controls the bot",
+      "value": "2348071569915",
+      "required": true
+    },
+    "CREATOR_NUMBER": {
+      "description": "Same as owner number",
+      "value": "2348071569915",
+      "required": true
+    },
+    "OWNER_LINK": {
+      "description": "Your wa.me link",
+      "value": "https://wa.me/2348071569915",
+      "required": false
+    },
+    "PREFIX": {
+      "description": "Command prefix - . for .menu .ping",
+      "value": ".",
+      "required": true
+    },
+    "MODE": {
+      "description": "public = everyone can use, private = only owner",
+      "value": "public",
+      "required": true
+    },
+    "LANGUAGE": {
+      "description": "Bot language",
+      "value": "en",
+      "required": false
+    },
+    "TIMEZONE": {
+      "description": "Timezone for time commands",
+      "value": "Africa/Lagos",
+      "required": false
+    },
+    "MAX_USERS": {
+      "description": "How many people can link - 1000",
+      "value": "1000",
+      "required": false
+    },
+    "MAX_DEVICES": {
+      "description": "Same as max users",
+      "value": "1000",
+      "required": false
+    },
+    "PAIR_METHOD": {
+      "description": "pair-code-only - No QR",
+      "value": "pair-code-only",
+      "required": false
+    },
+    "BOT_PFP": {
+      "description": "Bot profile picture URL - auto set on connect",
+      "value": "https://files.catbox.moe/i7j0le.png",
+      "required": false
+    },
+    "MENU_IMAGE": {
+      "description": "Image shown in menu",
+      "value": "https://files.catbox.moe/i7j0le.png",
+      "required": false
+    },
+    "AUTO_ONLINE": {
+      "description": "Auto online - false is safer, true can get ban",
+      "value": "false",
+      "required": false
+    },
+    "AUTO_VIEW_STATUS": {
+      "description": "Auto view status - false is safer",
+      "value": "false",
+      "required": false
+    },
+    "AUTO_LIKE_STATUS": {
+      "description": "Auto like status",
+      "value": "false",
+      "required": false
+    },
+    "AUTO_RECONNECT": {
+      "description": "Auto reconnect if disconnect - keep true",
+      "value": "true",
+      "required": false
+    },
+    "SESSION_FOLDER": {
+      "description": "Where sessions are saved",
+      "value": "sessions",
+      "required": false
+    }
+  },
+  "scripts": {
+    "postdeploy": "echo 💀 MINI-ZYRA DEPLOYED BY FACELESS - Open your app URL to pair"
+  }
 }
