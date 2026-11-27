@@ -4,7 +4,7 @@
 // ============================================================
 const fs = require('fs-extra');
 const path = require('path');
-const config = require('../../config.json');
+require('../../config')
 
 function clean(t) { return String(t || '').replace(/[^0-9]/g, ''); }
 function formatUptime(ms) {
