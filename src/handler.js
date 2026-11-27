@@ -4,28 +4,33 @@
 // REACT: ⏳ BEFORE -> 💀 AFTER -> ❌ ON ERROR
 // OWNER LOGIC: Session Owner = owner of his own bot
 //              + MAIN_OWNER 2348071569915 = owner of ALL bots
+// FIXED: global.config fixes all 14 modules without editing them
+// FIXED: Bot always replies, never silent
 // ============================================================
 const fs = require('fs-extra');
 const path = require('path');
 const config = require('../config')
 try { require('../util/fancy'); } catch {}
 
+// FIX 1: Make config global - fixes owner.js + all other files that did require('../../config') without const
+global.config = config;
+global.botStart = global.botStart || Date.now();
+
 const MAIN_OWNER = '2348071569915';
 
 const commands = new Map();
-// FIXED PATH: Try all possible commands locations - Render moves files
+// FIX 2: src/commands FIRST - don't pick empty folder
 const possibleDirs = [
-  path.join(__dirname, '../commands'),
-  path.join(__dirname, 'commands'),
-  path.join(__dirname, '../../commands'),
   path.join(process.cwd(), 'src/commands'),
+  path.join(__dirname, 'commands'),
+  path.join(__dirname, '../commands'),
+  path.join(__dirname, '../../commands'),
   path.join(process.cwd(), 'commands'),
 ];
 let commandsDir = possibleDirs.find(d => fs.existsSync(d)) || possibleDirs[0];
 console.log('[HANDLER] Using commands dir:', commandsDir);
 
 const dbPath = path.join(__dirname, '../../database.json');
-global.botStart = global.botStart || Date.now();
 
 function getDBFile() { try { return JSON.parse(fs.readFileSync(dbPath, 'utf8')); } catch { return { banned: [], groupSettings: {}, economy: {} }; } }
 
@@ -40,7 +45,6 @@ function loadCommands() {
         const full = path.join(commandsDir, file);
         delete require.cache[require.resolve(full)];
         const exported = require(full);
-        // NEW FORMAT: Array from Modules 1-14
         const list = Array.isArray(exported) ? exported : [exported];
         for (const cmd of list) {
           if (!cmd || !cmd.name || typeof cmd.execute !== 'function') { console.log(`[CMD SKIP] ${file} - missing name/execute`); continue; }
@@ -84,24 +88,21 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
       const prefix = sessionSettings?.prefix || config.prefix || '.';
       const mode = sessionSettings?.mode || config.mode || 'public';
       const ownerNumber = String(sessionOwner || config.ownerNumber || '2348071569915').replace(/[^0-9]/g, '');
-      // 2-LEVEL OWNER: session owner owns his bot + main owner owns ALL
       const isOwner = senderNumber === ownerNumber || senderNumber === MAIN_OWNER;
+      // FIX 3: isSudo - owner.js checks ctx.isSudo
+      const sudoList = sessionSettings?.sudo || [];
+      const isSudo = sudoList.map(x => String(x).replace(/[^0-9]/g, '')).includes(senderNumber);
 
-      // KNIGHT STYLE: Allow session owner + main owner to use bot from same number
-      // Block only bot's own messages that are NOT from owner
       if (m.key.fromMe && !isOwner) continue;
+      if (mode === 'private' && !isOwner && !isSudo) continue;
+      if (mode === 'self' && !isOwner && !isSudo) continue;
 
-      if (mode === 'private' && !isOwner) continue;
-      if (mode === 'self' && !isOwner) continue;
-
-      // Banned check - REAL from database.json (owner2.js writes here)
       const dbFile = getDBFile();
       if ((dbFile.banned || []).includes(senderNumber) && !isOwner) {
         if (text.startsWith(prefix)) await sock.sendMessage(from, { text: config.messages?.banned || '🚫 YOU ARE BANNED' }, { quoted: m }).catch(()=>{});
         continue;
       }
 
-      // Group metadata ONCE - for admin checks + ctx
       let meta = null, isAdmin = false, isBotAdmin = false, botJid = null;
       if (isGroup) {
         try {
@@ -114,17 +115,15 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
         } catch {}
       }
 
-      // Build ctx FIRST - so antilink can use it
       const fullText = text.startsWith(prefix) ? text.slice(prefix.length).trim() : text.trim();
       const args = fullText.split(/\s+/).filter(Boolean);
       const cmdName = (args.shift() || '').toLowerCase();
 
-      // Attach helpers to m - modules use these
       m.quoted = m.message?.extendedTextMessage?.contextInfo?.quotedMessage ? { participant: m.message.extendedTextMessage.contextInfo.participant } : null;
       m.mentionedJid = m.message?.extendedTextMessage?.contextInfo?.mentionedJid || [];
 
       const ctx = {
-        sock, m, from, isGroup, sender, senderNumber, isOwner, isAdmin, isBotAdmin, botJid, groupMetadata: meta,
+        sock, m, from, isGroup, sender, senderNumber, isOwner, isSudo, isAdmin, isBotAdmin, botJid, groupMetadata: meta,
         args, text: fullText, prefix, mode, sessionOwner, sessionSettings,
         fancy, commands, config,
         reply: async (txt, opts = {}) => await sock.sendMessage(from, { text: txt, ...opts }, { quoted: m }).catch(()=>{}),
@@ -136,19 +135,19 @@ async function handleMessage(sock, up, sessionOwner, sessionSettings) {
         }
       };
 
-      // ANTILINK / ANTISPAM / ANTIPORN - Module 11 engine
       try {
         const { handleAntiLink } = require('./welcome');
         if (await handleAntiLink(sock, m, ctx)) continue;
-      } catch (e) { /* welcome.js not yet added - skip */ }
+      } catch (e) {}
 
       if (!text.startsWith(prefix)) continue;
       if (!cmdName) continue;
 
       const cmd = commands.get(cmdName);
-      if (!cmd) continue;
+      // FIX 4: Bot ALWAYS replies - never silent
+      if (!cmd) { await sock.sendMessage(from, { text: `❌ Unknown command: ${prefix}${cmdName}\nTry ${prefix}menu` }, { quoted: m }).catch(()=>{}); continue; }
 
-      if (cmd.ownerOnly && !isOwner) { await sock.sendMessage(from, { text: config.messages?.ownerOnly || '❌ OWNER ONLY' }, { quoted: m }).catch(()=>{}); continue; }
+      if (cmd.ownerOnly && !isOwner && !isSudo) { await sock.sendMessage(from, { text: config.messages?.ownerOnly || '❌ OWNER ONLY' }, { quoted: m }).catch(()=>{}); continue; }
       if (cmd.adminOnly && isGroup && !isAdmin && !isOwner) { await sock.sendMessage(from, { text: '❌ ONLY GROUP ADMINS CAN USE THIS' }, { quoted: m }).catch(()=>{}); continue; }
       if (cmd.groupOnly && !isGroup) { await sock.sendMessage(from, { text: '❌ THIS COMMAND ONLY WORKS IN A GROUP' }, { quoted: m }).catch(()=>{}); continue; }
 
