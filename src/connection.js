@@ -16,7 +16,7 @@ const {
 const pino = require('pino');
 const fs = require('fs-extra');
 const path = require('path');
-const config = require('../config.json');
+const config = require('../config')
 const { handleMessage } = require('./handler');
 
 const activeSockets = {};
