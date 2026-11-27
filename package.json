@@ -1,0 +1,21 @@
+{
+  "name": "mini-zyra",
+  "version": "1.0.0",
+  "description": "MINI ZYRA - Multiple Devices WhatsApp Bot",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.0",
+    "express": "^4.19.2",
+    "pino": "^8.20.0",
+    "axios": "^1.7.0",
+    "fs-extra": "^11.2.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
