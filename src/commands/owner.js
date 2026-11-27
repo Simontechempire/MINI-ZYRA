@@ -4,7 +4,7 @@
 // ============================================================
 const fs = require('fs-extra');
 const path = require('path');
-const config = require('../../config.json');
+require('../../config')
 
 const getPath = (num) => path.join(__dirname, '../../sessions', String(num), 'settings.json');
 const dbPath = path.join(__dirname, '../../database.json');
