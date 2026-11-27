@@ -1,0 +1,107 @@
+# ============================================================
+# 💀 MINI-ZYRA - ENVIRONMENT FILE
+# BY FACELESS
+# This file is for secrets / settings that change per deploy
+# Render reads this. Local also reads this.
+# NEVER share your .env with anyone - it has owner number
+# ============================================================
+
+# ---------- SERVER ----------
+PORT=3000
+HOST=0.0.0.0
+NODE_ENV=production
+
+# ---------- BOT IDENTITY ----------
+BOT_NAME=MINI-ZYRA
+BOT_EMOJI=💀
+CREATOR_NAME=FACELESS
+OWNER_NAME=FACELESS
+
+# ---------- OWNER - CHANGE THIS TO YOUR NUMBER ----------
+OWNER_NUMBER=2348071569915
+CREATOR_NUMBER=2348071569915
+OWNER_LINK=https://wa.me/2348071569915
+
+# ---------- BOT SETTINGS ----------
+PREFIX=.
+MODE=public
+LANGUAGE=en
+TIMEZONE=Africa/Lagos
+
+# ---------- USERS / LIMITS ----------
+MAX_USERS=1000
+MAX_DEVICES=1000
+SLOT_LIMIT=false
+SLOT_SYSTEM=unlimited
+
+# ---------- PAIR ----------
+PAIR_METHOD=pair-code-only
+QR=false
+PRINT_QR_IN_TERMINAL=false
+PAIR_CODE_TIMEOUT=25000
+PAIR_CODE_DELAY=2000
+PAIR_LOCK=true
+
+# ---------- PFP / STATUS ----------
+BOT_PFP=https://files.catbox.moe/i7j0le.png
+PFP=https://files.catbox.moe/i7j0le.png
+MENU_IMAGE=https://files.catbox.moe/i7j0le.png
+ALIVE_IMAGE=https://files.catbox.moe/i7j0le.png
+BOT_STATUS=💀 MINI-ZYRA | BY FACELESS | TYPE .menu
+STATUS_TEXT=💀 MINI-ZYRA | BY FACELESS | TYPE .menu
+
+# ---------- AUTO FEATURES ----------
+AUTO_ONLINE=false
+MARK_ONLINE_ON_CONNECT=false
+AUTO_VIEW_STATUS=false
+AUTO_LIKE_STATUS=false
+AUTO_READ=false
+AUTO_REACT=true
+REACT_BEFORE=⏳
+REACT_AFTER=💀
+REACT_ERROR=❌
+AUTO_BIO=true
+AUTO_PFP=true
+AUTO_RECONNECT=true
+RECONNECT_DELAY=10000
+SYNC_FULL_HISTORY=false
+
+# ---------- BAILEYS / CONNECTION ----------
+CONNECT_TIMEOUT_MS=60000
+KEEP_ALIVE_INTERVAL_MS=10000
+RETRY_REQUEST_DELAY_MS=2000
+
+# ---------- DATABASE / SESSIONS ----------
+SESSION_FOLDER=sessions
+DATABASE_FILE=database.json
+PER_SESSION_DB=true
+PER_SESSION_SETTINGS=true
+
+# ---------- ANTI ----------
+ANTIDELETE=false
+ANTILINK=false
+ANTIBADWORD=false
+ANTIBOT=false
+ANTIFAKE=false
+ANTIVIEWONCE=false
+ANTISPAM=false
+
+# ---------- WELCOME ----------
+WELCOME_ENABLED=false
+GOODBYE_ENABLED=false
+
+# ---------- THEME ----------
+THEME_PRIMARY=💀
+THEME_SECONDARY=⚡
+THEME_FANCY=true
+THEME_BOLD=true
+
+# ---------- LINKS ----------
+OWNER_CHANNEL=https://whatsapp.com/channel/0029Vb6sJ4dJfnsHqZx5y12
+SUPPORT_GROUP=https://chat.whatsapp.com/YourGroupLinkHere
+GITHUB_REPO=https://github.com/FACELESS/MINI-ZYRA
+
+# ---------- RENDER ----------
+RENDER_BUILD_COMMAND=npm install
+RENDER_START_COMMAND=npm start
+RENDER_PLAN=free
