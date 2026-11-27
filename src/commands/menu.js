@@ -2,7 +2,7 @@
 // 💀 MINI-ZYRA - MENU - YOUR EXACT DESIGN
 // BY FACELESS - Dynamic DATE / UPTIME / PING / VERSION / COMMANDS
 // ============================================================
-const config = require('../../config.json');
+require('../../config')
 
 module.exports = {
   name: 'menu',
