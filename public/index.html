@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💀 MINI-ZYRA | BY FACELESS | Pair</title>
+<meta name="description" content="MINI-ZYRA - Pair your WhatsApp in seconds. By FACELESS. 1000 users can link.">
+<link rel="icon" href="https://files.catbox.moe/i7j0le.png">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Courier New',monospace}
+  body{background:#000;color:#00ff41;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px;overflow-x:hidden}
+  /* Matrix rain bg */
+  .bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(circle at 50% 0%,#0a2a0a 0%,#000 60%);opacity:.9}
+  .bg::after{content:"01010101 💀 01010101";position:absolute;inset:0;font-size:12px;color:#003300;opacity:.4;word-break:break-all;line-height:20px;overflow:hidden}
+  .top{width:100%;max-width:420px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .top b{font-size:13px;letter-spacing:1px}
+  .dot{width:10px;height:10px;background:#00ff41;border-radius:50%;display:inline-block;box-shadow:0 0 10px #00ff41;animation:blink 1s infinite}
+  @keyframes blink{50%{opacity:.2}}
+  .card{width:100%;max-width:420px;background:#0a0a0a;border:1px solid #00ff41;border-radius:18px;padding:22px;box-shadow:0 0 30px #00ff4133}
+  .logo{width:110px;height:110px;border-radius:50%;border:3px solid #00ff41;display:block;margin:0 auto 10px;object-fit:cover;box-shadow:0 0 25px #00ff41}
+  h1{text-align:center;font-size:28px;letter-spacing:2px;color:#fff;text-shadow:0 0 15px #00ff41}
+  h1 span{color:#00ff41}
+  .tag{text-align:center;font-size:12px;color:#00ff41;margin:6px 0 18px;letter-spacing:1px}
+  .box{background:#001100;border:1px dashed #00ff41;border-radius:12px;padding:12px;font-size:13px;line-height:1.6;margin-bottom:16px}
+  .box b{color:#fff}
+  label{font-size:12px;letter-spacing:1px;color:#00ff41}
+  input{width:100%;background:#000;border:1px solid #00ff41;color:#fff;padding:14px;border-radius:12px;font-size:16px;margin:8px 0 14px;outline:none}
+  input:focus{box-shadow:0 0 15px #00ff41}
+  input::placeholder{color:#555}
+  .btn{width:100%;background:#00ff41;color:#000;border:none;padding:15px;border-radius:12px;font-weight:900;font-size:16px;cursor:pointer;letter-spacing:1px}
+  .btn:active{transform:scale(.98)}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .btn2{width:100%;background:transparent;color:#00ff41;border:1px solid #00ff41;padding:12px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;margin-top:10px}
+  .codeBox{display:none;background:#000;border:2px solid #00ff41;border-radius:14px;padding:18px;text-align:center;margin-top:16px}
+  .codeBox h2{font-size:14px;color:#00ff41;margin-bottom:8px}
+  #code{font-size:42px;letter-spacing:8px;color:#fff;text-shadow:0 0 20px #00ff41;font-weight:900}
+  #codeSmall{font-size:12px;color:#888;margin-top:6px}
+  .copyBtn{background:#00ff41;color:#000;border:none;padding:10px 18px;border-radius:999px;font-weight:900;cursor:pointer;margin-top:12px}
+  .steps{background:#0a0a0a;border:1px solid #222;border-radius:12px;padding:14px;font-size:13px;line-height:1.8;margin-top:16px;color:#ccc}
+  .steps b{color:#00ff41}
+  .steps ol{padding-left:18px}
+  .stats{display:flex;gap:10px;margin-top:16px}
+  .stat{flex:1;background:#001100;border:1px solid #00ff41;border-radius:12px;padding:10px;text-align:center}
+  .stat b{font-size:20px;color:#fff;display:block}
+  .stat span{font-size:11px;color:#00ff41}
+  .footer{margin-top:18px;font-size:11px;color:#666;text-align:center;line-height:1.6;max-width:420px}
+  .footer a{color:#00ff41;text-decoration:none}
+  .error{background:#330000;border:1px solid red;color:#ffaaaa;padding:10px;border-radius:10px;font-size:13px;margin-top:12px;display:none}
+  .success{background:#003300;border:1px solid #00ff41;color:#ccffcc;padding:10px;border-radius:10px;font-size:13px;margin-top:12px;display:none}
+  .spinner{display:none;text-align:center;margin-top:12px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<div class="top">
+  <b>💀 MINI-ZYRA</b>
+  <b><span class="dot"></span> <span id="onlineText">ONLINE</span></b>
+</div>
+
+<div class="card">
+  <img class="logo" src="https://files.catbox.moe/i7j0le.png" alt="MINI-ZYRA">
+  <h1>MINI-<span>ZYRA</span></h1>
+  <div class="tag">💀 BY FACELESS | TERMINAL HACKER | 1000 USERS</div>
+
+  <div class="box">
+    <b>⚡ How to link:</b><br>
+    1. Enter your WhatsApp number<br>
+    2. Click <b>GET PAIR CODE</b><br>
+    3. Copy code → WhatsApp → Linked Devices → Link with code<br>
+    4. Done! Type <b>.menu</b> in your DM
+  </div>
+
+  <label>📱 WHATSAPP NUMBER</label>
+  <input id="number" type="tel" placeholder="2348071569915 - with country code, no +" inputmode="numeric">
+  <button class="btn" id="pairBtn" onclick="getCode()">⚡ GET PAIR CODE</button>
+  <button class="btn2" onclick="checkStatus()">📊 CHECK STATUS</button>
+
+  <div class="spinner" id="spinner">⏳ Generating your code... Please wait 5-10 sec...</div>
+  <div class="error" id="error"></div>
+  <div class="success" id="success"></div>
+
+  <div class="codeBox" id="codeBox">
+    <h2>✅ YOUR PAIR CODE - ENTER IN WHATSAPP</h2>
+    <div id="code">---- ----</div>
+    <div id="codeSmall">Code expires in 25 sec - If it fails, click GET PAIR CODE again</div>
+    <button class="copyBtn" onclick="copyCode()">📋 COPY CODE</button>
+    <div style="font-size:12px;color:#00ff41;margin-top:10px" id="countdown"></div>
+  </div>
+
+  <div class="steps">
+    <b>📖 STEP BY STEP:</b>
+    <ol>
+      <li>Open <b>WhatsApp</b> on your phone</li>
+      <li>Tap <b>⋮ Menu</b> → <b>Linked Devices</b></li>
+      <li>Tap <b>Link a Device</b></li>
+      <li>Tap <b>Link with phone number instead</b></li>
+      <li>Paste the <b>8-digit code</b> above</li>
+      <li>Wait - Bot will reply <b>.menu</b> works!</li>
+    </ol>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b id="totalStat">0</b><span>TOTAL BOTS</span></div>
+    <div class="stat"><b id="onlineStat">0</b><span>ONLINE</span></div>
+    <div class="stat"><b>1000</b><span>MAX USERS</span></div>
+  </div>
+</div>
+
+<div class="footer">
+  💀 MINI-ZYRA v2.0.0 | BY FACELESS<br>
+  Method: Knight XMD + SIMON MD Engine<br>
+  <a href="https://wa.me/2348071569915">Contact Owner</a> • <a href="https://whatsapp.com/channel/0029Vb6sJ4dJfnsHqZx5y12">Channel</a><br>
+  If code fails, wait 10 sec and try again. Don't spam.
+</div>
+
+<script>
+let currentCode = "";
+let countdownInt = null;
+
+async function getCode(){
+  const numEl = document.getElementById('number');
+  const number = numEl.value.replace(/[^0-9]/g,'');
+  const err = document.getElementById('error');
+  const suc = document.getElementById('success');
+  const spin = document.getElementById('spinner');
+  const btn = document.getElementById('pairBtn');
+  err.style.display='none'; suc.style.display='none';
+
+  if(!number || number.length < 7 || number.length > 15){
+    err.textContent = "❌ Invalid number. Use full number with country code, e.g. 2348071569915 - No +";
+    err.style.display='block';
+    return;
+  }
+
+  btn.disabled = true; btn.textContent = "⏳ GENERATING...";
+  spin.style.display='block';
+
+  try{
+    const res = await fetch('/api/pair',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ number })
+    });
+    const data = await res.json();
+    spin.style.display='none';
+    btn.disabled = false; btn.textContent = "⚡ GET PAIR CODE";
+
+    if(data.success && data.code){
+      currentCode = data.code;
+      document.getElementById('code').textContent = data.code;
+      document.getElementById('codeBox').style.display='block';
+      suc.textContent = "✅ Code generated for " + number + ". Enter it in WhatsApp now!";
+      suc.style.display='block';
+      startCountdown();
+      checkStatus();
+    } else if(data.alreadyConnected){
+      suc.textContent = "✅ Already connected! Just type .menu in your WhatsApp DM";
+      suc.style.display='block';
+    } else {
+      err.textContent = "❌ " + (data.message || "Failed to generate code. Try again in 10 sec.");
+      err.style.display='block';
+    }
+  } catch(e){
+    spin.style.display='none';
+    btn.disabled = false; btn.textContent = "⚡ GET PAIR CODE";
+    err.textContent = "❌ Server error. Refresh page and try again.";
+    err.style.display='block';
+  }
+}
+
+function copyCode(){
+  if(!currentCode) return;
+  navigator.clipboard.writeText(currentCode).then(()=>{
+    alert("✅ Code copied: " + currentCode);
+  });
+}
+
+function startCountdown(){
+  let s = 25;
+  clearInterval(countdownInt);
+  const el = document.getElementById('countdown');
+  el.textContent = "⏳ Expires in " + s + "s";
+  countdownInt = setInterval(()=>{
+    s--;
+    if(s <= 0){ clearInterval(countdownInt); el.textContent = "⚠️ Code expired - Click GET PAIR CODE again"; return; }
+    el.textContent = "⏳ Expires in " + s + "s";
+  },1000);
+}
+
+async function checkStatus(){
+  try{
+    const res = await fetch('/api/status');
+    const data = await res.json();
+    if(data.success){
+      document.getElementById('totalStat').textContent = data.total || 0;
+      document.getElementById('onlineStat').textContent = data.online || 0;
+      document.getElementById('onlineText').textContent = "ONLINE • " + (data.online||0) + "/" + (data.total||0);
+    }
+  } catch{}
+}
+
+// Auto refresh status every 10 sec
+checkStatus();
+setInterval(checkStatus, 10000);
+
+// Enter key = get code
+document.getElementById('number').addEventListener('keypress', e => {
+  if(e.key === 'Enter') getCode();
+});
+</script>
+</body>
+                                      </html>
