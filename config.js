@@ -57,7 +57,7 @@ module.exports = {
   pairCodeDelay: 2000,
   pairLock: true,
   perSessionDB: true,
-  perSessionSettings: true,
+  perSessionSettings: false,
   sessionFolder: "sessions",
   databaseFile: "database.json",
   anti: {
