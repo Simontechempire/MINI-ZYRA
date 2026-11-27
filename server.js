@@ -11,6 +11,12 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs-extra');
 const config = require('./config.json');
+const { handleMessage } = require('./src/handlers/message');
+const { handleGroupUpdate } = require('./src/handlers/welcome');
+
+// Inside sock connection, after sock.ev.on('connection.update'...)
+sock.ev.on('messages.upsert', (up) => handleMessage(sock, up, sessionOwner, sessionSettings));
+sock.ev.on('group-participants.update', (update) => handleGroupUpdate(sock, update));
 const { startBot, activeSockets } = require('./src/connection');
 const devicesApi = require('./src/devicesApi');
 
