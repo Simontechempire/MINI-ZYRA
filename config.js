@@ -1,0 +1,23 @@
+module.exports = {
+  botName: "MINI ZYRA",
+  version: "1.0.0",
+  ownerName: "Faceless",
+  mainOwner: "2348071569915",
+  mainOwnerNumber: "2348071569915",
+  botPfp: "https://files.catbox.moe/i7j0le.png",
+  defaultPrefix: ".",
+  port: process.env.PORT || 3000,
+  pairingMethod: "code",
+  usePairingCode: true,
+  printQRInTerminal: false,
+  mode: "public",
+  autobio: false,
+  autostatus: false,
+  autoreact: false,
+  autotyping: false,
+  autorecording: false,
+  anticall: false,
+  antidelete: false,
+  antiviewonce: false,
+  chatbot: false
+};
