@@ -14,9 +14,6 @@ const config = require('./config.js');
 const { handleMessage } = require('./src/handlers/message');
 const { handleGroupUpdate } = require('./src/handlers/welcome');
 
-// Inside sock connection, after sock.ev.on('connection.update'...)
-sock.ev.on('messages.upsert', (up) => handleMessage(sock, up, sessionOwner, sessionSettings));
-sock.ev.on('group-participants.update', (update) => handleGroupUpdate(sock, update));
 const { startBot, activeSockets } = require('./src/connection');
 const devicesApi = require('./src/devicesApi');
 
